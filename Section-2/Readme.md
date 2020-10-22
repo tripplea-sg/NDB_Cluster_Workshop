@@ -80,5 +80,29 @@ On t2 terminal, check table test.test from instance 3307
 ```
 $ mysql -uroot -h127.0.0.1 -P3307 -e "select * from test.test"
 ```
+## Terminate one of the Data Node
+On t2 terminal, terminate one of the data node as follow:
+```
+$ ps -ef | grep ndbmtd
+$ kill -9 <PID>
+```
+On t1 terminal, start the failed process
+```
+mcm> show status --process mycluster;
+mcm> start process <processID> mycluster;
+mcm> show status --progress mycluster;
+mcm> show status --process mycluster;
+```
+## Run Autotune 
+On t1 terminal, baseline to cluster using autotune. Check first the recommendation using --dryrun mode
+```
+mcm> autotune --dryrun --writeload=low test mycluster;
+mcm> \! cat /var/opt/mcm/clusters/mycluster/tmp/autotune.*.mcm
+```
+Apply the recommmendation
+```
+mcm> autotune --writeload=low test mycluster;
+```
+
 
 
