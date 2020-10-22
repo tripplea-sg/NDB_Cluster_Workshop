@@ -19,4 +19,8 @@ mcm>\! ls /home/opc/backup/data2
 mcm>\! ls /home/opc/backup/sql1
 mcm>\! ls /home/opc/backup/sql2
 ```
-
+## Drop database 
+On t2 terminal, login to 3306 and drop database ted.
+```
+$ mysql -uroot -h127.0.0.1
+```
