@@ -1,5 +1,5 @@
 # Backup and Recovery
-## Run a backup and monitor
+## Backup database and monitor
 On t1 terminal, run the following command to backup database:
 ```
 mcm> backup cluster --backupid=123456 --background mycluster;
