@@ -76,4 +76,23 @@ mcm> show status --progress mycluster;
 ```
 On t2 terminal, sync back all ndb_*_backup tables with the original tables and flush privileges
 ```
+$ mysql -uroot -h127.0.0.1 
+mysql> select * from mysql.user;
+mysql> select table_name, engine from information_schema.tables where table_schema='mysql';
+mysql> insert into mysql.user select * from mysql.ndb_user_backup;
+mysql> insert into mysql.tables_priv select * from mysql.ndb_tables_priv_backup;
+mysql> insert into mysql.proxies_priv select * from mysql.ndb_proxies_priv_backup;
+mysql> insert into mysql.procs_priv select * from mysql.ndb_procs_priv_backup;
+mysql> insert into mysql.db select * from mysql.ndb_db_backup;
+mysql> insert into mysql.columns_priv select * from mysql.ndb_columns_priv_backup;
+mysql> flush privileges;
+mysql> select user from mysql.user;
+mysql> call mysql.mysql_cluster_move_privileges();
+mysql> select mysql.mysql_cluster_privileges_are_distributed();
+mysql> exit;
+
+$ mysql -uroot -h127.0.0.1 -P3307
+mysql> flush privileges;
+mysql> select mysql.mysql_cluster_privileges_are_distributed();
+mysql> exit;
 ```
