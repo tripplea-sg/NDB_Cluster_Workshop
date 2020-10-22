@@ -25,6 +25,7 @@ Login to mcm
 ```
 $ mcm
 mcm> status;
+mcm> list commands;
 mcm> exit;
 ```
 Terminate mcmd process and relogin to mcm
