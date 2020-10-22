@@ -1,5 +1,5 @@
 # Setup a MySQL Cluster
-Open a ssh terminal (t1) and connect to the server.Choose profile that points to MySQL Cluster 7.6.16
+Open a ssh terminal (t1) and connect to the server. Choose profile that points to MySQL Cluster 7.6.16
 ## Create site
 ```
 $ mcm
