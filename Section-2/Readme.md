@@ -74,11 +74,14 @@ mysql> create database test;
 mysql> create table test.test (i int) engine ndbcluster;
 mysql> insert into test.test values (1), (2), (3);
 mysql> select * from test.test;
+mysql> source /home/opc/sql/create_ndb_test_data.sql;
+mysql> select * from ted.test;
 mysql> exit;
 ```
 On t2 terminal, check table test.test from instance 3307
 ```
 $ mysql -uroot -h127.0.0.1 -P3307 -e "select * from test.test"
+$ mysql -uroot -h127.0.0.1 -P3307 -e "select * from ted.test"
 ```
 ## Terminate one of the Data Node
 On t2 terminal, terminate one of the data node as follow:
@@ -103,6 +106,43 @@ Apply the recommmendation
 ```
 mcm> autotune --writeload=low test mycluster;
 ```
-
+## Implement Distributed Privileges
+On t2 terminal, login to 3306 to configure distributed privileges
+```
+$ mysql -uroot -h127.0.0.1
+mysql> source /home/opc/source/mysql-cluster-advanced-7.6.16-el7-x86_64/share/ndb_dist_priv.sql
+mysql> select mysql.mysql_cluster_privileges_are_distributed();
+mysql> select routine_name from information_schema.routines where routine_name like 'mysql_cluster%';
+mysql> call mysql.mysql_cluster_move_privileges();
+mysql> select mysql.mysql_cluster_privileges_are_distributed();
+mysql> select routine_name from information_schema.routines where routine_name like 'mysql_cluster%';
+```
+On t2 terminal, still on 3306, create user and run "call mysql.mysql_cluster_move_privileges()". 
+```
+mysql> create user test@'%' identified by 'test';
+mysql> grant all privileges on *.* to test@'%';
+mysql> select user from mysql.user;
+mysql> select user from mysql.ndb_user_backup;
+mysql> call mysql.mysql_cluster_move_privileges();
+mysql> select user from mysql.ndb_user_backup;
+mysql> exit;
+```
+On t2 terminal, connect to 3307 and query the new user
+```
+$ mysql -uroot -h127.0.0.1 -P3307
+mysql> select user from mysql.user;
+mysql> select user from mysql.ndb_user_backup;
+```
+On t2 terminal, still on 3307, install the same package
+```
+mysql> source /home/opc/source/mysql-cluster-advanced-7.6.16-el7-x86_64/share/ndb_dist_priv.sql
+mysql> select mysql.mysql_cluster_privileges_are_distributed();
+mysql> exit;
+```
+On t2 terminal, test login to 3306 and 3307 using test@'%' user
+```
+$ mysql -utest -ptest -h127.0.0.1 -P3307 -e "select * from ted.test"
+$ mysql -utest -ptest -h127.0.0.1 -P3306 -e "select * from ted.test"
+```
 
 
