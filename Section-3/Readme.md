@@ -96,3 +96,8 @@ mysql> flush privileges;
 mysql> select mysql.mysql_cluster_privileges_are_distributed();
 mysql> exit;
 ```
+## Exit from t2 terminal for next exercise
+On t2 terminal, 
+```
+$ exit;
+```
