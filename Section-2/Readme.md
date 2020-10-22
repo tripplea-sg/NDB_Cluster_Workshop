@@ -106,7 +106,7 @@ Apply the recommmendation
 ```
 mcm> autotune --writeload=low test mycluster;
 ```
-## Implement Distributed Privileges
+## Implement Distributed Privileges and create a user
 On t2 terminal, login to 3306 to configure distributed privileges
 ```
 $ mysql -uroot -h127.0.0.1
