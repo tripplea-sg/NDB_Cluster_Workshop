@@ -35,7 +35,7 @@ mysql> select user from mysql.user;
 mysql> exit;
 
 $ mysql -uroot -h127.0.0.1 
-mysql> grant ndb_stored_user on *.* to ‘test8’;
+mysql> grant ndb_stored_user on *.* to 'test8';
 mysql> exit;
 
 $ mysql -uroot -h127.0.0.1 -P3307
