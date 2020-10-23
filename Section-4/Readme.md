@@ -7,11 +7,16 @@ mcm> list packages test;
 On t1 terminal, upgrade NDB Cluster and monitor the upgrade status
 ```
 mcm> upgrade cluster --package=cluster_8.0.22 --background mycluster;
-mcm> show status --process mycluster;
 mcm> show status --progress mycluster;
-mcm> list clusters test;
+mcm> show status --process mycluster;
 ```
-Upgrade is completed. Open new terminal (t2) and choose profile for 8.0.22, then check table mysql.user
+Repeat "show status --process" until all are up and running. Once done, upgrade is complete.
+```
+mcm> stop cluster mycluser;
+mcm> list clusters test;
+mcm> start cluster mycluster;
+```
+Open new terminal (t2) and choose profile for 8.0.22, then check table mysql.user
 ```
 $ mysql -uroot -h127.0.0.1
 mysql> select table_name, engine from information_schema.tables where table_schema='mysql';
