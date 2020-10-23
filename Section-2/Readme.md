@@ -112,10 +112,10 @@ On t2 terminal, login to 3306 to configure distributed privileges
 $ mysql -uroot -h127.0.0.1
 mysql> source /home/opc/source/mysql-cluster-advanced-7.6.16-el7-x86_64/share/ndb_dist_priv.sql
 mysql> select mysql.mysql_cluster_privileges_are_distributed();
-mysql> select routine_name from information_schema.routines where routine_name like 'mysql_cluster%';
+mysql> select table_name, engine from information_schema.tables where table_schema='mysql';
 mysql> call mysql.mysql_cluster_move_privileges();
 mysql> select mysql.mysql_cluster_privileges_are_distributed();
-mysql> select routine_name from information_schema.routines where routine_name like 'mysql_cluster%';
+mysql> select table_name, engine from information_schema.tables where table_schema='mysql';
 ```
 On t2 terminal, still on 3306, create user and run "call mysql.mysql_cluster_move_privileges()". 
 ```
