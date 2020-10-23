@@ -15,6 +15,7 @@ Repeat "show status --process" until all are up and running. Once done, upgrade 
 mcm> stop cluster mycluser;
 mcm> list clusters test;
 mcm> start cluster mycluster;
+mcm> show status --process mycluster;
 ```
 Open new terminal (t2) and choose profile for 8.0.22, then check table mysql.user
 ```
