@@ -19,7 +19,7 @@ $ cat /home/opc/conf/mcm.ini
 ```
 Start mcm
 ```
-$ mcmd --defaults-file=/home/opc/conf/mcm.ini
+$ mcmd --defaults-file=/home/opc/conf/mcm.ini &
 ```
 Login to mcm
 ```
