@@ -6,7 +6,7 @@ mcm> show status --progress mycluster;
 ```
 Repeat "show status --progress" until 100% complete.
 ```
-mcm> set datadir:ndbmtd:1=/home/opc/data/data3,datadir:ndbmtd:2=/home/opc/data/data4 mycluster;
+mcm> set datadir:ndbmtd:3=/home/opc/data/data3,datadir:ndbmtd:4=/home/opc/data/data4 mycluster;
 ```
 On t1 terminal, start the added nodes
 ```
