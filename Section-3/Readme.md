@@ -71,7 +71,7 @@ mysql> exit;
 ```
 On t1 terminal, restore database from backup
 ```
-mcm> restore cluster --backupid=123456 mycluster;
+mcm> restore cluster --backupid=123456 --background mycluster;
 mcm> show status --progress mycluster;
 ```
 On t2 terminal, sync back all ndb_*_backup tables with the original tables and flush privileges
