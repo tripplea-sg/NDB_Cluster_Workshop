@@ -217,14 +217,14 @@ $ mysql -utest -ptest -h127.0.0.1 -P3306 -e "select * from ted.test"
 ```
 ## Benchmark (Optional)
 ```
-$ mysqlslap -h127.0.0.1 -uroot --auto-generate-sql --auto-generate-sql-guid-primary --auto-generate-sql-secondary-indexes=2 --auto-generate-sql-load-type=write --auto-generate-sql-write-number=200000 --auto-generate-sql-execute-number=100 --concurrency=6 --engine=ndbcluster 
+$ mysqlslap -h127.0.0.1 -uroot --auto-generate-sql --auto-generate-sql-guid-primary --auto-generate-sql-secondary-indexes=2 --auto-generate-sql-load-type=write --auto-generate-sql-write-number=200000 --auto-generate-sql-execute-number=100 --concurrency=4 --engine=ndbcluster 
 $ mcm
 
 mcm > stop cluster mycluster;
 ```
 Create innodb database and run mysqlslap again
 ```
-$ mysqlslap -h127.0.0.1 -uroot --auto-generate-sql --auto-generate-sql-guid-primary --auto-generate-sql-secondary-indexes=2 --auto-generate-sql-load-type=write --auto-generate-sql-write-number=200000 --auto-generate-sql-execute-number=100 --concurrency=6 --engine=innodb
+$ mysqlslap -h127.0.0.1 -uroot --auto-generate-sql --auto-generate-sql-guid-primary --auto-generate-sql-secondary-indexes=2 --auto-generate-sql-load-type=write --auto-generate-sql-write-number=200000 --auto-generate-sql-execute-number=100 --concurrency=4 --engine=innodb
 ```
 
 
