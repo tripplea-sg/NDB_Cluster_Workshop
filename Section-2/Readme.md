@@ -72,7 +72,7 @@ tc{count=1,cpubind=25},recv={count=1,cpubind=31}, send{count=1,cpubind=29}" mycl
 ```
 ## Set DataMemory (Optional on this workshop)
 ```
-mcm > set DataMemory:ndbd=5000M mycluster;
+mcm > set DataMemory:ndbmtd=5000M mycluster;
 ```
 ## Start NDB Cluster
 On t1 terminal:
