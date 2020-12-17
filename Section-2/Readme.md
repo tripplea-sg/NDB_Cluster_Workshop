@@ -54,6 +54,22 @@ On t1 terminal:
 ```
 mcm> set backupdatadir:ndbmtd:1=/home/opc/backup/data1,backupdatadir:ndbmtd:2=/home/opc/backup/data2,backupdatadir:mysqld:50=/home/opc/backup/sql1,backupdatadir:mysqld:51=/home/opc/backup/sql2 mycluster;
 ```
+## Thread Config
+Check CPU configuration
+```
+$ lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'
+```
+Check if NUMA is enabled / disabled
+```
+$ numactl --show
+```
+Set ThreadConfig on MCM:
+```
+mcm > set ThreadConfig:ndbd:1="ldm{count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
+tc{count=1,cpubind=17},recv={count=1,cpubind=23}, send{count=1,cpubind=21}" mycluster;
+mcm > set ThreadConfig:ndbd:2="ldm{count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
+tc{count=1,cpubind=25},recv={count=1,cpubind=31}, send{count=1,cpubind=29}" mycluster;
+```
 ## Start NDB Cluster
 On t1 terminal:
 ```
