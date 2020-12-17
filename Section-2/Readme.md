@@ -88,18 +88,23 @@ tc={count=1,cpubind=25},recv={count=1,cpubind=31}, send={count=1,cpubind=29}" my
 ```
 Alternative:
 ```
-mcm > set ThreadConfig:ndbmtd:1="ldm={count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
-tc={count=1,cpubind=17},recv={count=1,cpubind=23}, send={count=1,cpubind=21}" mycluster;
-mcm > set ThreadConfig:ndbmtd:2="ldm={count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
-tc={count=1,cpubind=25},recv={count=1,cpubind=31}, send={count=1,cpubind=29}" mycluster;
-mcm > set ThreadConfig:ndbmtd:1="ldm={count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
-tc={count=1,cpubind=17},recv={count=1,cpubind=23}, send={count=1,cpubind=21}" mycluster;
-mcm > set ThreadConfig:ndbmtd:2="ldm={count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
-tc={count=1,cpubind=25},recv={count=1,cpubind=31}, send={count=1,cpubind=29}" mycluster;
+mcm > set ThreadConfig:ndbmtd:1="ldm={count=2,cpubind=8,10},main={cpubind=13},io={cpubind=12}, \
+tc={count=1,cpubind=12},recv={count=1,cpubind=9}, send={count=1,cpubind=11}" mycluster;
+mcm > set ThreadConfig:ndbmtd:2="ldm={count=2,cpubind=14,16},main={cpubind=19},io={cpubind=18}, \
+tc={count=1,cpubind=18},recv={count=1,cpubind=15}, send={count=1,cpubind=17}" mycluster;
+mcm > set ThreadConfig:ndbmtd:3="ldm={count=2,cpubind=20,22},main={cpubind=25},io={cpubind=24}, \
+tc={count=1,cpubind=24},recv={count=1,cpubind=21}, send={count=1,cpubind=23}" mycluster;
+mcm > set ThreadConfig:ndbmtd:4="ldm={count=2,cpubind=26,28},main={cpubind=31},io={cpubind=30}, \
+tc={count=1,cpubind=30},recv={count=1,cpubind=27}, send={count=1,cpubind=29}" mycluster;
 ```
 ## Set DataMemory (Optional on this workshop)
 ```
 mcm > set DataMemory:ndbmtd=5000M mycluster;
+```
+Alternative:
+```
+mcm> set DataMemory:ndbmtd=2000M mycluster;
+mcm> set UseShm:ndbmtd=1 mycluster;
 ```
 ## Start NDB Cluster
 On t1 terminal:
