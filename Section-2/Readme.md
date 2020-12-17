@@ -176,5 +176,16 @@ On t2 terminal, test login to 3306 and 3307 using test@'%' user
 $ mysql -utest -ptest -h127.0.0.1 -P3307 -e "select * from ted.test"
 $ mysql -utest -ptest -h127.0.0.1 -P3306 -e "select * from ted.test"
 ```
+## Benchmark (Optional)
+```
+$ mysqlslap -h127.0.0.1 -uroot --auto-generate-sql --auto-generate-sql-guid-primary --auto-generate-sql-secondary-indexes=2 --auto-generate-sql-load-type=read --auto-generate-sql-write-number=200000 --auto-generate-sql-execute-number=100 --concurrency=6 --engine=ndbcluster 
+$ mcm
+
+mcm > stop cluster mycluster;
+```
+Create innodb database and run mysqlslap again
+```
+$ mysqlslap -h127.0.0.1 -uroot --auto-generate-sql --auto-generate-sql-guid-primary --auto-generate-sql-secondary-indexes=2 --auto-generate-sql-load-type=read --auto-generate-sql-write-number=200000 --auto-generate-sql-execute-number=100 --concurrency=6 --engine=innodb
+```
 
 
