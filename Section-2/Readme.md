@@ -65,9 +65,9 @@ $ numactl --show
 ```
 Set ThreadConfig on MCM:
 ```
-mcm > set ThreadConfig:ndbd:1="ldm{count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
+mcm > set ThreadConfig:ndbmtd:1="ldm{count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
 tc{count=1,cpubind=17},recv={count=1,cpubind=23}, send{count=1,cpubind=21}" mycluster;
-mcm > set ThreadConfig:ndbd:2="ldm{count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
+mcm > set ThreadConfig:ndbmtd:2="ldm{count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
 tc{count=1,cpubind=25},recv={count=1,cpubind=31}, send{count=1,cpubind=29}" mycluster;
 ```
 ## Set DataMemory (Optional on this workshop)
