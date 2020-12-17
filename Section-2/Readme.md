@@ -160,8 +160,8 @@ mcm> autotune --writeload=low test mycluster;
 ```
 Optional:
 ```
-mcm > autotune --dryrun --writeload=high realtime mycluster;
-mcm > autotune --writeload=high realtime mycluster;
+mcm > autotune --dryrun --writeload=high test mycluster;
+mcm > autotune --writeload=high test mycluster;
 mcm > stop process 50 mycluster;
 mcm > stop process 51 mycluster;
 mcm > exit
@@ -169,6 +169,14 @@ $ cd /home/opc/source/mcm-1.4.8-cluster-7.6.13-linux-el7-x86-64bit/mcm_data/clus
 $ numactl -C 0,1,2,3,4,5,6,7 mysqld --defaults-file=my.cnf &
 $ cd /home/opc/source/mcm-1.4.8-cluster-7.6.13-linux-el7-x86-64bit/mcm_data/clusters/mycluster/51/cfg
 $ numactl -C 8,9,10,11,12,13,14,15 mysqld --defaults-file=my.cnf &
+```
+Alternative:
+```
+mcm > autotune --writeload=high test mycluster;
+mcm > stop process 50 mycluster;
+mcm > exit
+$ cd /home/opc/source/mcm-1.4.8-cluster-7.6.13-linux-el7-x86-64bit/mcm_data/clusters/mycluster/50/cfg
+$ numactl -C 0,1,2,3,4,5,6,7 mysqld --defaults-file=my.cnf &
 ```
 ## Implement Distributed Privileges and create a user
 On t2 terminal, login to 3306 to configure distributed privileges
