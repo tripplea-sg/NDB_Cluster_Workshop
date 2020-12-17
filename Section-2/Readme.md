@@ -128,6 +128,7 @@ mcm> autotune --writeload=low test mycluster;
 ```
 Optional:
 ```
+mcm > autotune --dryrun --writeload=high realtime mycluster;
 mcm > autotune --writeload=high realtime mycluster;
 ```
 ## Implement Distributed Privileges and create a user
