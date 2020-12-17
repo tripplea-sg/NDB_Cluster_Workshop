@@ -172,7 +172,6 @@ $ numactl -C 8,9,10,11,12,13,14,15 mysqld --defaults-file=my.cnf &
 ```
 Alternative:
 ```
-mcm > autotune --writeload=high test mycluster;
 mcm > stop process 50 mycluster;
 mcm > exit
 $ cd /home/opc/source/mcm-1.4.8-cluster-7.6.13-linux-el7-x86-64bit/mcm_data/clusters/mycluster/50/cfg
