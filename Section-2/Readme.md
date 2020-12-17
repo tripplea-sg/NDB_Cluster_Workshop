@@ -22,6 +22,10 @@ mcm> list clusters test;
 mcm> show status mycluster;
 mcm> show status --process mycluster;
 ```
+Alternative:
+```
+mcm> create cluster --package=cluster_7.6.16 --processhosts=ndbmtd@127.0.0.1,ndbmtd@127.0.0.1,ndbmtd@127.0.0.1,ndbmtd@127.0.0.1,ndb_mgmd@127.0.0.1,mysqld@127.0.0.1,ndbapi@127.0.0.1,ndbapi@127.0.0.1 mycluster;
+```
 ## List and change configuration on Management Node
 On t1 terminal:
 ```
@@ -43,16 +47,28 @@ mcm> set datadir:ndbmtd:2=/home/opc/data/data2 mycluster;
 mcm> get *:ndbmtd:1 mycluster;
 mcm> get *:ndbmtd:2 mycluster;
 ```
+Alternative:
+```
+mcm> set datadir:ndbmtd:1=/home/opc/data/data1 mycluster;
+mcm> set datadir:ndbmtd:2=/home/opc/data/data2 mycluster;
+mcm> set datadir:ndbmtd:3=/home/opc/data/data3 mycluster;
+mcm> set datadir:ndbmtd:4=/home/opc/data/data4 mycluster;
+```
 ## List and change configuration on SQL Nodes
 On t1 terminal:
 ```
 mcm> set port:mysqld:51=3307,datadir:mysqld:50=/home/opc/data/sql1,datadir:mysqld:51=/home/opc/data/sql2,log_error:mysqld:50=/home/opc/data/sql1/mysqld.log,log_error:mysqld:51=/home/opc/data/sql2/mysqld.log,socket:mysqld:50=/home/opc/data/sql1/mysqld.soc,socket:mysqld:51=/home/opc/data/sql2/mysqld.soc,log_bin:mysqld:50=/home/opc/data/sql1/bin,log_bin:mysqld:51=/home/opc/data/sql2/bin,binlog_format:mysqld=row,server_id:mysqld:50=100,server_id:mysqld:51=200 mycluster;
 ```
-The above command will also set ports for each MySQL instance (3306 and 3307). We differentiate the port since they are running on the same server.
+The above command will also set ports for each MySQL instance (3306 and 3307). We differentiate the port since they are running on the same server. </br>
+Alternative: No change
 ## Change backup directory for all nodes
 On t1 terminal:
 ```
 mcm> set backupdatadir:ndbmtd:1=/home/opc/backup/data1,backupdatadir:ndbmtd:2=/home/opc/backup/data2,backupdatadir:mysqld:50=/home/opc/backup/sql1,backupdatadir:mysqld:51=/home/opc/backup/sql2 mycluster;
+```
+Alternative:
+```
+mcm> set backupdatadir:ndbmtd:1=/home/opc/backup/data1,backupdatadir:ndbmtd:2=/home/opc/backup/data2,backupdatadir:ndbmtd:3=/home/opc/backup/data3,backupdatadir:ndbmtd:4=/home/opc/backup/data4,backupdatadir:mysqld:50=/home/opc/backup/sql1 mycluster;
 ```
 ## Thread Config (Optional on this workshop)
 Check CPU configuration
@@ -65,6 +81,17 @@ $ numactl --show
 ```
 Set ThreadConfig on MCM:
 ```
+mcm > set ThreadConfig:ndbmtd:1="ldm={count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
+tc={count=1,cpubind=17},recv={count=1,cpubind=23}, send={count=1,cpubind=21}" mycluster;
+mcm > set ThreadConfig:ndbmtd:2="ldm={count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
+tc={count=1,cpubind=25},recv={count=1,cpubind=31}, send={count=1,cpubind=29}" mycluster;
+```
+Alternative:
+```
+mcm > set ThreadConfig:ndbmtd:1="ldm={count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
+tc={count=1,cpubind=17},recv={count=1,cpubind=23}, send={count=1,cpubind=21}" mycluster;
+mcm > set ThreadConfig:ndbmtd:2="ldm={count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
+tc={count=1,cpubind=25},recv={count=1,cpubind=31}, send={count=1,cpubind=29}" mycluster;
 mcm > set ThreadConfig:ndbmtd:1="ldm={count=4,cpubind=16,18,20,22},main={cpubind=19},io={cpubind=19}, \
 tc={count=1,cpubind=17},recv={count=1,cpubind=23}, send={count=1,cpubind=21}" mycluster;
 mcm > set ThreadConfig:ndbmtd:2="ldm={count=4,cpubind=24,26,28,30},main={cpubind=27},io={cpubind=27}, \
