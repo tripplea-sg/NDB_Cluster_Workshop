@@ -126,6 +126,10 @@ Apply the recommmendation
 ```
 mcm> autotune --writeload=low test mycluster;
 ```
+Optional:
+```
+mcm > autotune --writeload=high realtime mycluster;
+```
 ## Implement Distributed Privileges and create a user
 On t2 terminal, login to 3306 to configure distributed privileges
 ```
