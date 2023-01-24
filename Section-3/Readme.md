@@ -1,14 +1,17 @@
 # Backup and Recovery
 ## Backup database and monitor
-On t1 terminal, run the following command to backup database:
+Run the following command to backup database:
 ```
-mcm> backup cluster --backupid=123456 --background mycluster;
+mcm
+mcm> get backupdatadir:ndbd:1 mycluster;
+mcm> get backupdatadir:ndbd:2 mycluster;
+mcm> backup cluster --backupid=1 --background mycluster;
 ```
 Monitor the backup process using the following:
 ```
 mcm> show status --progress mycluster;
 ```
-On t1 terminal, list all backups for mycluster
+list all backups for mycluster
 ```
 mcm> list backups mycluster;
 ```
