@@ -1,31 +1,36 @@
 # Scale Up NDB Cluster (Adding Data Nodes)
-On t1 terminal, do the following:
+## Adding new processes
 ```
-mcm> add process --processhosts=ndbmtd@127.0.0.1,ndbmtd@127.0.0.1 --background mycluster;
+mcm
+mcm> add process --processhosts=ndbd@10.0.0.93,ndbd@10.0.0.93 --background mycluster;
 mcm> show status --progress mycluster;
 ```
 Repeat "show status --progress" until 100% complete.
 ```
-mcm> set datadir:ndbmtd:3=/home/opc/data/data3,datadir:ndbmtd:4=/home/opc/data/data4 mycluster;
+mcm> show status -r mycluster;
+
+mcm> \! mkdir -p /home/opc/mysql-cluster/mcm-data/clusters/mycluster/3/data /home/opc/mysql-cluster/mcm-data/clusters/mycluster/4/data
 ```
 On t1 terminal, start the added nodes
 ```
-mcm> show status --process mycluster;
-mcm> start process --added mycluster;
-mcm> show status --process mycluster;
-```
-On t2 terminal, check the distribution of table ted.test and test.test as follow:
-```
-$ ndb_desc -pn -dted -p test
-$ ndb_desc -pn -dtest -p test
-```
-The distribution does not even. Only data node group 0 is populated with data. On t2 terminal, do the following to redistribute the data.
-```
-$ mysql -uroot -h127.0.0.1
-mysql> ALTER TABLE ted.test REORGANIZE PARTITION;
-mysql> ALTER TABLE test.test REORGANIZE PARTITION;
-mysql> exit;
+mcm> start process --added --background mycluster;
 
-$ ndb_desc -pn -dted -p test
-$ ndb_desc -pn -dtest -p test
+mcm> show status --process mycluster;
+
+mcm> exit;
+```
+Check data nodes utilization
+```
+mysql -uroot -h::1 -e "select * from ndbinfo.memoryusage"
+```
+Reorganize partition
+```
+mysql -uroot -h127.0.0.1 -e "alter table world_x.city reorganize partition"
+mysql -uroot -h127.0.0.1 -e "alter table world_x.country reorganize partition"
+mysql -uroot -h127.0.0.1 -e "alter table world_x.countryinfo reorganize partition"
+mysql -uroot -h127.0.0.1 -e "alter table world_x.countrylanguage reorganize partition"
+```
+Check data nodes utilization
+```
+mysql -uroot -h::1 -e "select * from ndbinfo.memoryusage"
 ```
