@@ -14,93 +14,46 @@ mcm> show status --progress mycluster;
 list all backups for mycluster
 ```
 mcm> list backups mycluster;
+mcm> exit
 ```
 On t1 terminal, check the backup files from backupdatadir file location
 ```
-mcm>\! ls /home/opc/backup/data1
-mcm>\! ls /home/opc/backup/data2
-mcm>\! ls /home/opc/backup/sql1
-mcm>\! ls /home/opc/backup/sql2
+ls /home/opc/backup/data-1/BACKUP/BACKUP-1
+ls /home/opc/backup/data-2/BACKUP/BACKUP-1
+ls /home/opc/backup/sql-3306/BACKUP/BACKUP-1
+ls /home/opc/backup/sql-3307/BACKUP/BACKUP-1
 ```
-## Drop database 
-On t2 terminal, login to 3306 and drop database ted.
+## Stop and Start Cluster with Initial
 ```
-$ mysql -uroot -h127.0.0.1
-mysql> drop database ted;
-mysql> exit;
-```
-## Restore Database From a Backup
-On t1 terminal, stop the cluster and monitor the progress. Repeat the "show status --progrees" command until cluster is stopped.
-```
+mcm
 mcm> stop cluster --background mycluster;
 mcm> show status --progress mycluster;
-mcm> show status --process mycluster;
-```
-On t2 terminal, remmove all files from SQL Nodes' data directory
-```
-$ rm -Rf /home/opc/data/sql1/*
-$ rm -Rf /home/opc/data/sql2/*
-```
-On t1 terminal, start cluster with --initial (all data will be wiped out from NDB Cluster)
-```
+
+mcm> \! rm -Rf /home/opc/mysql-cluster/mcm-data/clusters/mycluster/146/data/*
+mcm> \! rm -Rf /home/opc/mysql-cluster/mcm-data/clusters/mycluster/147/data/*
+
 mcm> start cluster --initial --background mycluster;
 mcm> show status --progress mycluster;
-mcm> show status --process mycluster;
+mcm> show status -r mycluster;
+mcm> exit;
 ```
-Once all cluster nodes are up - on t2 terminal, prepare SQL Nodes for restoration:
+## check content of database
 ```
-$ mysql -uroot -h127.0.0.1
-mysql> show databases;
-mysql> select user from mysql.user;
-mysql> select table_name, engine from information_schema.tables where table_schema='mysql';
-mysql> source /home/opc/source/mysql-cluster-advanced-7.6.16-el7-x86_64/share/ndb_dist_priv.sql
-mysql> drop table mysql.user;
-mysql> drop table mysql.tables_priv;
-mysql> drop table mysql.proxies_priv;
-mysql> drop table mysql.procs_priv;
-mysql> drop table mysql.db;
-mysql> drop table mysql.columns_priv;
-mysql> exit;
+mysql -uroot -h::1 -e "show databases"
 
-$ mysql -uroot -h127.0.0.1 -P3307
-mysql> source /home/opc/source/mysql-cluster-advanced-7.6.16-el7-x86_64/share/ndb_dist_priv.sql
-mysql> drop table mysql.user;
-mysql> drop table mysql.tables_priv;
-mysql> drop table mysql.proxies_priv;
-mysql> drop table mysql.procs_priv;
-mysql> drop table mysql.db;
-mysql> drop table mysql.columns_priv;
-mysql> exit;
+mysql -uroot -h::1 -P3307 -e "show databases"
 ```
-On t1 terminal, restore database from backup
+## restore from backup using mcm
 ```
-mcm> restore cluster --backupid=123456 --background mycluster;
+mcm
+mcm> list backups mycluster;
+mcm> restore cluster --backupid=1 --background mycluster;
 mcm> show status --progress mycluster;
+mcm> exit;
 ```
-On t2 terminal, sync back all ndb_*_backup tables with the original tables and flush privileges
+Check Data from SQL node
 ```
-$ mysql -uroot -h127.0.0.1 
-mysql> select * from mysql.user;
-mysql> select table_name, engine from information_schema.tables where table_schema='mysql';
-mysql> insert into mysql.user select * from mysql.ndb_user_backup;
-mysql> insert into mysql.tables_priv select * from mysql.ndb_tables_priv_backup;
-mysql> insert into mysql.proxies_priv select * from mysql.ndb_proxies_priv_backup;
-mysql> insert into mysql.procs_priv select * from mysql.ndb_procs_priv_backup;
-mysql> insert into mysql.db select * from mysql.ndb_db_backup;
-mysql> insert into mysql.columns_priv select * from mysql.ndb_columns_priv_backup;
-mysql> flush privileges;
-mysql> select user from mysql.user;
-mysql> call mysql.mysql_cluster_move_privileges();
-mysql> select mysql.mysql_cluster_privileges_are_distributed();
-mysql> exit;
+mysql -uroot -h::1 -e "show databases"
 
-$ mysql -uroot -h127.0.0.1 -P3307
-mysql> flush privileges;
-mysql> select mysql.mysql_cluster_privileges_are_distributed();
-mysql> exit;
-```
-## Exit from t2 terminal for next exercise
-On t2 terminal, 
-```
-$ exit;
+mysql -uroot -h::1 -P3307 -e "show databases"
 ```
