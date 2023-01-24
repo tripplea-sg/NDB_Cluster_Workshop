@@ -124,4 +124,25 @@ mysql -uroot -h::1 -P3307 -e "select user from mysql.user"
 mysql -uroot -h::1 -P3307 -e "grant all privileges on *.* to apps@'%';"
 mysql -uapps -papps -h::1 -e "show grants;"
 ```
-
+## Install world_x schema
+```
+wget http://downloads.mysql.com/docs/world_x-db.zip
+unzip world_x-db.zip
+mysql -uroot -h::1 -e "source world_x-db/world_x.sql"
+mysql -uroot -h::1 -e "show databases"
+mysql -uroot -h::1 -P3307 -e "show databases"
+mysql -uroot -h::1 -e "use world_x; show tables;"
+mysql -uroot -h::1 -P3307 -e "use world_x; show tables;"
+```
+Change table's storage engine to NDBCLUSTER
+```
+mysql -uroot -h::1 -e "alter table world_x.city engine=ndbcluster"
+mysql -uroot -h::1 -e "alter table world_x.countryinfo engine=ndbcluster"
+mysql -uroot -h::1 -e "alter table world_x.countrylanguage drop constraint countrylanguage_ibfk_1"
+mysql -uroot -h::1 -e "alter table world_x.country engine=ndbcluster;"
+mysql -uroot -h::1 -e " alter table countrylanguage engine=ndbcluster;"
+mysql -uroot -h::1 -P3307 -e "use world_x; show tables"
+mysql -uroot -h::1 -e "alter table world_x.countrylanguage add CONSTRAINT countrylanguage_ibfk_1 FOREIGN KEY (CountryCode) REFERENCES country (Code)"
+mysql -uroot -h::1 -P3307 -e "use world_x; show create table countrylanguage"
+mysql -uroot -h::1 -e "use world_x; show create table countrylanguage"
+```
