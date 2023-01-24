@@ -47,9 +47,13 @@ The above command will also set ports for each MySQL instance (3306 and 3307). W
 ```
 mcm> get backupdatadir:ndbd:1 mycluster;
 mcm> get backupdatadir:ndbd:2 mycluster;
-mcm> \! mkdir -p /home/opc/backup/data-1 /home/opc/backup/data-2
+mcm> \! mkdir -p /home/opc/backup/data-1 /home/opc/backup/data-2 /home/opc/backup/sql-3306 /home/opc/backup/sql-3307
 mcm> set backupdatadir:ndbd:1=/home/opc/backup/data-1 mycluster;
 mcm> set backupdatadir:ndbd:2=/home/opc/backup/data-2 mycluster;
+mcm> set backupdatadir:mysqld:146=/home/opc/backup/sql-3306 mycluster;
+mcm> set backupdatadir:mysqld:146=/home/opc/backup/sql-3307 mycluster;
+mcm> get backupdatadir:mysqld:146 mycluster;
+mcm> get backupdatadir:mysqld:147 mycluster;
 mcm> get backupdatadir:ndbd:1 mycluster;
 mcm> get backupdatadir:ndbd:2 mycluster;
 ```
