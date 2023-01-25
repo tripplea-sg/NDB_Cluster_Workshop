@@ -57,3 +57,13 @@ mysql -uroot -h::1 -e "show databases"
 
 mysql -uroot -h::1 -P3307 -e "show databases"
 ```
+## Partial restore using mcm
+delete table
+```
+mysql -uroot -h::1 -e "drop table world_x.city"
+```
+restore table using mcm
+```
+mcm
+
+```
