@@ -65,5 +65,6 @@ mysql -uroot -h::1 -e "drop table world_x.city"
 restore table using mcm
 ```
 mcm
-
+mcm> restore cluster --backupid=5 --include-tables=world_x.city mycluster; 
+mcm> exit
 ```
